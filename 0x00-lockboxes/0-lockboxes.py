@@ -4,19 +4,14 @@
 
 def canUnlockAll(boxes):
     """ Coment """
-    if not boxes:
-        return False
+    box = len(boxes) * [False]
+    box[0] = True
+    keys = [0]
 
-    keys = {0}
-    end = False
-
-    while not end:
-        flag = False
-        for i in range(len(boxes)):
-            if i in keys:
-                for key in boxes[i]:
-                    if key not in keys:
-                        flag = True
-                    keys.add(key)
-        end = True if not flag else False
-    return len(keys) == len(boxes)
+    for each in keys:
+        for i in boxes[each]:
+            if i not in keys:
+                if i < len(boxes):
+                    box[i] = True
+                    keys.append(i)
+    return all(box)
