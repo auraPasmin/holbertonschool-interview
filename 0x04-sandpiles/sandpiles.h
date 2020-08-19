@@ -1,12 +1,12 @@
-#ifndef _BINARY_TREES_H_
-#define _BINARY_TREES_H_
+#ifndef SANDPILES_H_
+#define SANDPILES_H_
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 void sandpiles_sum(int grid1[3][3], int grid2[3][3]);
-int isStable(int grid1[3][3], int gridSchema[3][3]);
-void plusOneRound(int grid1[3][3], int i, int j);
-void _print_grid(int grid[3][3], int separator);
+void print_grid_unstable(int grid[3][3]);
+int sandpiles_check(int grid1[3][3], int grid[3][3]);
+void redistribution_sand(int grid1[3][3], int i, int j);
 
-#endif /* _BINARY_TREES_H_ */
+#endif /* SANDPILES_H_ */
