@@ -18,7 +18,7 @@ contCode = {
 
 def printCodes():
     """
-    function print the codes and the number 
+    function print the codes and the number
     """
     # print file size
     print("File size: {}".format(counters["size"]))
