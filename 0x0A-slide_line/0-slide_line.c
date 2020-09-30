@@ -1,6 +1,5 @@
-#include "slide_line.h"
 #include <stdlib.h>
-
+#include "slide_line.h"
 
 /**
  * swap_ints - switch 
