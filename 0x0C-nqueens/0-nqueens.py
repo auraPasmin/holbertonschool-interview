@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
+
 import sys
 
 
 def diagonals(results, N):
-
     # fill diagonals
     diagonals = []
     for i in results:
