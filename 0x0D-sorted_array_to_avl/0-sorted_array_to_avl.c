@@ -1,64 +1,57 @@
 #include "binary_trees.h"
 /**
- * sorted_array_to_avl - convert array to avl tree
- * @array: array to convert.
- * @size: size of array.
- * Return: tree.
+ * sorted_array_to_avl - create binary tree
+ * @array: The array to convert
+ * @size: Size of the array
+ * Return: header
  */
 avl_t *sorted_array_to_avl(int *array, size_t size)
 {
-	avl_t *tree = NULL;
+	avl_t *header = NULL;
 
-	tree = recursive_tree(array, 0, (int)size - 1);
-	if (!tree)
+	if (array == NULL)
 		return (NULL);
-	return (tree);
+
+	if (nodes_binary(array, 0, (int)size - 1, &header) == NULL)
+		return (NULL);
+	return (header);
 }
 /**
- * create_node - create node of avl_t
- * @n: number
- * Return: node or NULL
+ * nodes_binary - create binary tree
+ * @array: The array to convert
+ * @p1: initial position
+ * @p2: final position
+ * @header: node to create
+ * Return: header
  */
-avl_t *create_node(int n)
+avl_t *nodes_binary(int *array, int p1, int p2, avl_t **header)
 {
-	avl_t *node = NULL;
+	avl_t *new_node = NULL, *left = NULL, *right = NULL;
+	int middle;
 
-	if (n == 0)
+	if (p1 > p2)
 		return (NULL);
-	node = malloc(sizeof(avl_t));
-	if (!node)
-		return (NULL);
-	node->parent = NULL;
-	node->left = NULL;
-	node->right = NULL;
-	node->n = n;
-	return (node);
-}
-/**
- * recursive_tree - add node with recursive fuction
- * @array: array.
- * @ben: begin.
- * @end: end.
- * Return: tree
- */
-avl_t *recursive_tree(int *array, int ben, int end)
-{
-	avl_t *left = NULL, *right = NULL, *parent = NULL;
-	size_t n = 0;
 
-	if (ben > end)
+	middle = (p2 + p1) / 2;
+
+	nodes_binary(array, p1, middle - 1, &left);
+	nodes_binary(array, middle + 1, p2, &right);
+
+	new_node = malloc(sizeof(avl_t));
+	if (new_node == NULL)
 		return (NULL);
-	n = (ben + end) / 2;
-	left = recursive_tree(array, ben, n - 1);
-	right = recursive_tree(array, n + 1, end);
-	parent = create_node(array[n]);
-	if (!parent)
-		return (NULL);
-	parent->left = left;
-	parent->right = right;
-	if (left)
-		left->parent = parent;
-	if (right)
-		right->parent = parent;
-	return (parent);
+
+	new_node->n = array[middle];
+	new_node->parent = NULL;
+	new_node->left = left;
+	new_node->right = right;
+
+	if (left != NULL)
+		left->parent = new_node;
+
+	if (right != NULL)
+		right->parent = new_node;
+
+	*header = new_node;
+	return (new_node);
 }
