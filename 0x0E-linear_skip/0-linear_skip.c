@@ -1,90 +1,52 @@
 #include "search.h"
 /**
- * print_found - print message when found limits
- * @index1: from this index
- * @index2: to this index
- * @last: know if the last one in express line
- *
- * Return: nothing
+ * search_skip - search for a value.
+ * @ben: main node
+ * @end: final node
+ * @value: value to search
+ * Return: NULL if not found value or the node that contain value
  */
-void print_found(size_t index1, size_t index2, skiplist_t *last)
+skiplist_t *search_skip(skiplist_t *ben, skiplist_t *end, int value)
 {
-	if (last != NULL)
-	{
-		while (last->next != NULL)
-			last = last->next;
-		index2 = last->index;
-	}
-	printf("Value found between indexes [%lu] and [%lu]\n", index1, index2);
-}
-/**
- * print_check - print message when check values
- * @index: index where is comparing
- * @value: value to compare
- *
- * Return: nothing
- */
-void print_check(size_t index, int value)
-{
-	printf("Value checked at index [%lu] = [%i]\n", index, value);
-}
-/**
- * find_one_by_one - check next by next
- * @head: express line node
- * @value: value to compare
- *
- * Return: node founded
- */
-skiplist_t *find_one_by_one(skiplist_t *head, int value)
-{
-	skiplist_t *current = head;
+	char *format = "Value found between indexes [%li] and [%li]\n";
+	char *fmt = "Value checked at index [%li] = [%i]\n";
 
-	if (head == NULL)
-		printf("n head nullll");
-	for (; current; current = current->next)
+	printf(format, ben->index, end->index);
+	while (ben != end->next)
 	{
-		print_check(current->index, current->n);
-		if (current->n == value)
-			return (current);
+		printf(fmt, ben->index, ben->n);
+		if (value == ben->n)
+			return (ben);
+		ben = ben->next;
 	}
-
 	return (NULL);
 }
 /**
- * linear_skip - found a value in skip list
- * @head: express line node
- * @value: value to compare
- *
- * Return: node founded
+ * linear_skip - search for a number in a linear skip
+ * @head: list of type skiplis_t
+ * @value: value to search into list
+ * Return: NULL or node contain to value
  */
 skiplist_t *linear_skip(skiplist_t *head, int value)
 {
-	skiplist_t *current  = head, *next = NULL;
+	skiplist_t *ben, *end;
+	char *format = "Value checked at index [%li] = [%i]\n";
 
-	if (head == NULL)
+	if (!head)
 		return (NULL);
-
-	while (current != NULL)
+	end = head;
+	while (end && end->next && end->n < value)
 	{
-		next = current->express;
-		if (next != NULL)
+		ben = end;
+		if (!end->express)
 		{
-			print_check(next->index, next->n);
-			if (next->n >= value)
-			{
-				print_found(current->index, next->index, NULL);
-				return (find_one_by_one(current, value));
-			}
-
-			if (next->express == NULL)
-			{
-				print_found(next->index, 0, next);
-				return (find_one_by_one(next, value));
-			}
+			while (end->next)
+				end = end->next;
+			continue;
 		}
-
-		current = current->express;
+		else
+			end = end->express;
+		printf(format, end->index, end->n);
 	}
-
-	return (NULL);
+	return (search_skip(ben, end, value));
 }
