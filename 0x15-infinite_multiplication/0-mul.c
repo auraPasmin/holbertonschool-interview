@@ -16,7 +16,7 @@ void _puts(char *s)
 /**
  * _isdigit - check if s is a number or not.
  * @s: string to check.
- * Return: 0 if s 
+ * Return: 0 if s
  */
 int _isdigit(char *s)
 {
